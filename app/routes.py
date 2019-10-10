@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import current_user, login_user, logout_user, login_required
 from werkzeug.urls import url_parse
 from app.models import User, Task
@@ -60,3 +60,24 @@ def register():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
+
+
+@app.route('/delete', methods=['GET', 'POST'])
+def delete():
+    print('I have been called')
+    return(redirect(url_for('index')))
+
+
+@app.route('/getTasks', methods=['GET'])
+def getTasks():
+    print ('Getting tasks')
+    tasks = current_user.user_tasks().all()
+    userTasks = []
+    for task in tasks:
+        taskToAdd = dict(
+            id = int(task.id),
+            data = task.body
+        )
+        userTasks.append(taskToAdd)
+    return jsonify(dict(tasks=userTasks))
+

@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<script>var userTaskList = [];</script>
+<script>
+    var userTaskList = [];
+    var getTasksUrl  = "{{ url_for('getTasks') }}";
+</script>
 <div id="vue-div">
     <h1>Hi, {{ current_user.username }}!</h1>
     {% if form %}
@@ -24,17 +27,17 @@
                 <b>{{ task.body }}</b>
             </p>
             </div>
-            <script>
+            <!-- <script>
                 userTaskList.push("{{ task.body }}");
-            </script>
+            </script> -->
         {% endfor %}
     </div>
     <a href="{{ url_for('delete') }}">{{ url_for('delete') }}</a>
-    <script>
+    <!-- <script>
         window.onload = function() {
             taskCollector(userTaskList);
         }
-    </script>
+    </script> -->
 </div>
 <script src="/static/scripts.js" charset="utf-8"></script>
 {% endblock %}
