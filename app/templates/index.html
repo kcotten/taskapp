@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <script src="/static/scripts.js" charset="utf-8"></script>
-    <script>var userTaskList = [];</script>
-    
+<script>var userTaskList = [];</script>
+<div id="vue-div">
     <h1>Hi, {{ current_user.username }}!</h1>
     {% if form %}
     <form action="" method="post">
@@ -27,13 +26,15 @@
             </div>
             <script>
                 userTaskList.push("{{ task.body }}");
-                console.log(userTaskList);
             </script>
         {% endfor %}
     </div>
+    <a href="{{ url_for('delete') }}">{{ url_for('delete') }}</a>
     <script>
         window.onload = function() {
             taskCollector(userTaskList);
         }
     </script>
+</div>
+<script src="/static/scripts.js" charset="utf-8"></script>
 {% endblock %}
