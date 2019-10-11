@@ -41,9 +41,13 @@ var app = function() {
         });
     };   
 
+    self.editTask = function() {
 
+    }
 
-
+    self.deleteTask = function() {
+        
+    }
 
 
     self.vue = new Vue({
@@ -60,6 +64,8 @@ var app = function() {
             initTasks: self.initTasks,
             processTasks: self.processTasks,
             getTasks: self.getTasks,
+            editTask: self.editTask,
+            deleteTask: self.deleteTask
         }
     });
 

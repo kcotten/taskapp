@@ -6,33 +6,45 @@
     var getTasksUrl  = "{{ url_for('getTasks') }}";
 </script>
 <div id="vue-div">
-    <h1>Hi, {{ current_user.username }}!</h1>
-    {% if form %}
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.task.label }}<br>
-            {{ form.task(cols=32, rows=4) }}<br>
-            {% for error in form.task.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
-    {% endif %}
-    <div class="user_tasks">
-        {% for task in tasks %}
-            <div class="user_task">
+    <div class="greet">
+        <h1>Hi, {{ current_user.username }}!</h1>
+    </div>
+    <table id="user_tasks">
+        <tr>
+        <th>
+        {% if form %}
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
             <p>
-                <b>{{ task.body }}</b>
+                {{ form.task.label }}<br>
+                {{ form.task(cols=64, rows=2) }}<br>
+                {% for error in form.task.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
             </p>
-            </div>
+            <p>{{ form.submit() }}</p>
+        </form>
+        {% endif %}
+        </th>
+        </tr>
+        {% for task in tasks %}
+            <tr id="user_task">
+            <th>
+                <b>{{ task.body }}</b>
+            </th>
+            <th>
+                <button id="editButton" v-on:click="editTask()">Edit</button>
+            </th>
+            <th>
+                <button id="deleteButton" v-on:click="deleteTask()">Delete</button>
+            </th>
+            </tr>
             <!-- <script>
                 userTaskList.push("{{ task.body }}");
             </script> -->
         {% endfor %}
-    </div>
-    <a href="{{ url_for('delete') }}">{{ url_for('delete') }}</a>
+    </table>
+    <!-- <a href="{{ url_for('delete') }}">{{ url_for('delete') }}</a> -->
     <!-- <script>
         window.onload = function() {
             taskCollector(userTaskList);

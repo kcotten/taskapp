@@ -30,6 +30,6 @@ class RegistrationForm(FlaskForm):
 
 
 class TaskForm(FlaskForm):
-    task = TextAreaField('Say something', validators=[
+    task = TextAreaField('What to do next', validators=[
         DataRequired(), Length(min=1, max=140)])
     submit = SubmitField('Submit')
