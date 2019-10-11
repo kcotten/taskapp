@@ -1,22 +1,11 @@
 // check if vars are available
-<<<<<<< HEAD
-=======
 /*
->>>>>>> abc195c5c9878c3693ef22cf9541b4bf68642abe
 var user_tasks = [];
 function taskCollector(tasks) {
     user_tasks = tasks;
 }
 
 console.log(user_tasks);
-<<<<<<< HEAD
-
-var app = function() {
-    self.initTracks = function() {
-        this.console.log(tasks);
-    }
-
-=======
 */
 var app = function() {
     const None = undefined;
@@ -57,21 +46,11 @@ var app = function() {
 
 
 
->>>>>>> abc195c5c9878c3693ef22cf9541b4bf68642abe
     self.vue = new Vue({
         el: "#vue-div",
         delimiters: ['${', '}'],
         unsafeDelimiters: ['{{','}}'],
         data: {
-<<<<<<< HEAD
-            tasks: user_tasks
-        },
-        mounted() {
-            this.initTracks();
-        },
-        methods: {
-            initTracks: self.initTracks,
-=======
             tasks: None,
         },
         mounted() {
@@ -81,17 +60,12 @@ var app = function() {
             initTasks: self.initTasks,
             processTasks: self.processTasks,
             getTasks: self.getTasks,
->>>>>>> abc195c5c9878c3693ef22cf9541b4bf68642abe
         }
     });
 
     return self;
-<<<<<<< HEAD
-}
-=======
 };
 
 var APP = null;
 
 jQuery(function(){APP = app();});
->>>>>>> abc195c5c9878c3693ef22cf9541b4bf68642abe

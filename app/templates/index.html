@@ -1,45 +1,3 @@
-<<<<<<< HEAD
-{% extends "base.html" %}
-
-{% block content %}
-<script>var userTaskList = [];</script>
-<div id="vue-div">
-    <h1>Hi, {{ current_user.username }}!</h1>
-    {% if form %}
-    <form action="" method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.task.label }}<br>
-            {{ form.task(cols=32, rows=4) }}<br>
-            {% for error in form.task.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
-    {% endif %}
-    <div class="user_tasks">
-        {% for task in tasks %}
-            <div class="user_task">
-            <p>
-                <b>{{ task.body }}</b>
-            </p>
-            </div>
-            <script>
-                userTaskList.push("{{ task.body }}");
-            </script>
-        {% endfor %}
-    </div>
-    <a href="{{ url_for('delete') }}">{{ url_for('delete') }}</a>
-    <script>
-        window.onload = function() {
-            taskCollector(userTaskList);
-        }
-    </script>
-</div>
-<script src="/static/scripts.js" charset="utf-8"></script>
-{% endblock %}
-=======
 {% extends "base.html" %}
 
 {% block content %}
@@ -83,4 +41,3 @@
 </div>
 <script src="/static/scripts.js" charset="utf-8"></script>
 {% endblock %}
->>>>>>> abc195c5c9878c3693ef22cf9541b4bf68642abe
