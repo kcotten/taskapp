@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <html>
     <head>
         <script src="/static/vue.js" charset="utf-8"></script>
@@ -30,3 +31,41 @@
         {% block content %}{% endblock %}
     </body>
 </html>
+=======
+<html>
+    <head>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+        <script src="/static/vue.js"></script>
+        {% if title %}
+        <title>{{ title }} - Task List</title>
+        {% else %}
+        <title>Task List</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>
+            Task List:
+            <a href="{{ url_for('index') }}">Home</a>
+            {% if current_user.is_anonymous %}
+            <a href="{{ url_for('login') }}">Login</a>
+            {% else %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
+        </div>
+        <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </body>
+</html>
+>>>>>>> abc195c5c9878c3693ef22cf9541b4bf68642abe
