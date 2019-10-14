@@ -4,20 +4,20 @@
 <script>
     var userTaskList = [];
     var getTasksUrl  = "{{ url_for('getTasks') }}";
+    var deleteTasksUrl = "{{ url_for('delete') }}";
+    var editTasksUrl = "{{ url_for('edit') }}";
 </script>
 <div id="vue-div">
     <div class="greet">
         <h1>Hi, {{ current_user.username }}!</h1>
     </div>
-    <table id="user_tasks">
-        <tr>
-        <th>
+    <div id="taskForm">
         {% if form %}
         <form action="" method="post">
             {{ form.hidden_tag() }}
             <p>
                 {{ form.task.label }}<br>
-                {{ form.task(cols=64, rows=2) }}<br>
+                {{ form.task(cols=64, rows=3) }}<br>
                 {% for error in form.task.errors %}
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
@@ -25,24 +25,31 @@
             <p>{{ form.submit() }}</p>
         </form>
         {% endif %}
-        </th>
+    </div>
+    <table id="user_tasks">
+        <tr>
+        <th>Task</th>
+        <th>Edit</th>
+        <th>Delete</th>
         </tr>
-        {% for task in tasks %}
-            <tr id="user_task">
-            <th>
-                <b>{{ task.body }}</b>
-            </th>
-            <th>
-                <button id="editButton" v-on:click="editTask()">Edit</button>
-            </th>
-            <th>
-                <button id="deleteButton" v-on:click="deleteTask()">Delete</button>
-            </th>
-            </tr>
-            <!-- <script>
-                userTaskList.push("{{ task.body }}");
-            </script> -->
-        {% endfor %}
+        <div id="taskList">            
+            {% for task in tasks %}
+                <tr id="{{ task.id }}">
+                <td id="taskBody_{{ task.id }}">
+                    <b>{{ task.body }}</b>
+                </td>
+                <td id="taskEditButton_{{ task.id }}">
+                    <button id="editButton_{{ task.id }}" v-on:click='editTask("{{ task.body }}", "{{ task.id }}")'>Edit</button>
+                </td>
+                <td id="taskDeleteButton_{{ task.id }}">
+                    <button id="deleteButton_{{ task.id }}" v-on:click='deleteTask("{{ task.id }}")'>Delete</button>
+                </td>
+                </tr>
+                <!-- <script>
+                    userTaskList.push("{{ task.body }}");
+                </script> -->
+            {% endfor %}
+        </div>
     </table>
     <!-- <a href="{{ url_for('delete') }}">{{ url_for('delete') }}</a> -->
     <!-- <script>

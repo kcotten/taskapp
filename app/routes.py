@@ -15,7 +15,7 @@ def index():
         task = Task(body=form.task.data, user_id=current_user.id)
         db.session.add(task)
         db.session.commit()
-        flash('Your post is now live!')
+        flash('Your task is now live!')
         return redirect(url_for('index'))
     tasks = current_user.user_tasks().all()
     return render_template("index.html", title='Home Page', form=form,
@@ -64,8 +64,27 @@ def register():
 
 @app.route('/delete', methods=['GET', 'POST'])
 def delete():
-    print('I have been called')
-    return(redirect(url_for('index')))
+    print('Delete has been called')
+    id = request.json['id']
+    taskToDelete = Task.query.filter_by(id=id).first()
+    db.session.delete(taskToDelete)
+    db.session.commit()
+    print('Task deleted')
+    return ""
+
+
+@app.route('/edit', methods=['GET', 'POST'])
+def edit():
+    print('Edit has been called')
+    id = request.json['id']
+    print(id)
+    body = request.json['body']
+    print(body)
+    taskToUpdate = Task.query.filter_by(id=id).first()
+    taskToUpdate.body = body
+    db.session.commit()
+    print('Edit successful')
+    return ""
 
 
 @app.route('/getTasks', methods=['GET'])
