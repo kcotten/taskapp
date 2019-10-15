@@ -11,7 +11,7 @@ var app = function() {
     const None = undefined;
     var taskCount = 0;
 
-    var enumerate = function(v) { track_count = 0; return v.map(function(e) {e._idx = taskCount++;});};
+    var enumerate = function(v) { taskCount = 0; return v.map(function(e) {e._idx = taskCount++;});};
 
 
     self.initTasks = function() {
@@ -39,12 +39,23 @@ var app = function() {
                 self.processTasks();
             }
         });
-    };   
+    };
 
 
-    self.editTask = function(body, idx) {
+    getTaskById = function(id) {
+        console.log('The id is: ' + id);
+        for (var i = 0; i < self.vue.tasks.length; i++) {
+            if ( self.vue.tasks[i].id == id) {
+                return self.vue.tasks[i].data;
+            }
+        }
+    }
+
+
+    self.editTask = function(idx) {
         //console.log(body);
         var editId = "editButton_" + idx; 
+        var body   = getTaskById(idx);
         if ($("#" + editId).text() === "Update") {
             console.log("Updating task")
             updateTask(idx);
@@ -53,7 +64,6 @@ var app = function() {
             //var taskRow = document.getElementById(idx);
             //var cols = taskRow.children("td");
             var divId = "taskBody_" + idx;
-            //console.log(divId);
             var taskBody = document.getElementById(divId);
             var newBody = document.createElement('INPUT');
             newBody.setAttribute("id", divId);
@@ -78,9 +88,7 @@ var app = function() {
         newBody.innerHTML = "<b>" + data + "</b>";
         //newBody.setAttribute("innerHTML", data);
         taskBody.parentNode.replaceChild(newBody, taskBody);
-
         document.getElementById(editId).innerHTML = "Edit";
-
         console.log(JSON.stringify({id:idx, body:data}));
         // update db
         $.ajax({

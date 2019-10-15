@@ -1,22 +1,43 @@
 #user_tasks {
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
+  margin: auto;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+}
   
-  #user_tasks td, #user_tasks th {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-  
-  #user_tasks tr:nth-child(even){background-color: #f2f2f2;}
-  
-  #user_tasks tr:hover {background-color: #ddd;}
-  
-  #user_tasks th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-  }
+#user_tasks td, #user_tasks th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#user_tasks tr:nth-child(even){background-color: #f2f2f2;}
+
+#user_tasks tr:hover {background-color: #ddd;}
+
+#user_tasks th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+
+.greet {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+
+.navHeader {
+  width: 100%;
+  background-color: #4CAF50;
+  padding: 12px;
+  text-align: center;
+  font-size: x-large;
+}
+
+#taskForm {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}

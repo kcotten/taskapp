@@ -15,7 +15,7 @@ def index():
         task = Task(body=form.task.data, user_id=current_user.id)
         db.session.add(task)
         db.session.commit()
-        flash('Your task is now live!')
+        #flash('Your task is now live!')
         return redirect(url_for('index'))
     tasks = current_user.user_tasks().all()
     return render_template("index.html", title='Home Page', form=form,

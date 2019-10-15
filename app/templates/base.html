@@ -1,5 +1,6 @@
 <html>
     <head>
+        <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAJ4IXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEREQAAAAAAAREQAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAABAAAAEQAAABEQAAARAAABERAAABEAAAERERERERERERERERERERERH4HwAA/D8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAH5+AAA+fAAAPnwAAAAAAAAAAAAA" rel="icon" type="image/x-icon" />
         <script
             src="https://code.jquery.com/jquery-3.4.1.js"
             integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -13,7 +14,7 @@
         {% endif %}
     </head>
     <body>
-        <div>
+        <div class="navHeader">
             Task List:
             <a href="{{ url_for('index') }}">Home</a>
             {% if current_user.is_anonymous %}

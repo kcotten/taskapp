@@ -39,7 +39,7 @@
                     <b>{{ task.body }}</b>
                 </td>
                 <td id="taskEditButton_{{ task.id }}">
-                    <button id="editButton_{{ task.id }}" v-on:click='editTask("{{ task.body }}", "{{ task.id }}")'>Edit</button>
+                    <button id="editButton_{{ task.id }}" v-on:click='editTask("{{ task.id }}")'>Edit</button>
                 </td>
                 <td id="taskDeleteButton_{{ task.id }}">
                     <button id="deleteButton_{{ task.id }}" v-on:click='deleteTask("{{ task.id }}")'>Delete</button>
