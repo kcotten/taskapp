@@ -9,33 +9,46 @@ console.log(user_tasks);
 */
 var app = function() {
     const None = undefined;
-    var taskCount = 0;
 
-    var enumerate = function(v) { taskCount = 0; return v.map(function(e) {e._idx = taskCount++;});};
+    var enumerate = function(v) { self.vue.taskCount = 0; return v.map(function(e) {e._idx = self.vue.taskCount++;});};
 
 
     self.initTasks = function() {
         self.getTasks();
     }
 
+
     self.processTasks = function() { 
         enumerate(self.vue.tasks);
         self.vue.tasks.map(function (e) {
             // map anything to the tasks
+            Vue.set(e, 'isEditing', e.taskBeingEdited === "no");
+            Vue.set(e, 'isFocus', false);
         });
     };
+
 
     self.getTasks = function() {
         var param = None;
         $.ajax({
-            type: "GET",
+            type: "POST",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             url: getTasksUrl,
             data: JSON.stringify(param),
             success: function (response) {
-                console.log(response.tasks);
-                self.vue.tasks = response.tasks;
+                //console.log(response.tasks);
+                //self.vue.tasks = response.tasks;                
+                var user_objects = JSON.parse(JSON.stringify(response));
+                //console.log(user_objects);
+                var user_tasks = Object.values(user_objects);
+                //console.log(user_tasks);
+                for(var i = 0; i < user_tasks[0].length; i++) {
+                    //console.log(user_tasks[0][i]);
+                    self.vue.tasks.push({ id: user_tasks[0][i].id, data: user_tasks[0][i].data});
+                }
+                console.log(self.vue.tasks);
+                console.log(self.vue.tasks[0]);
                 self.processTasks();
             }
         });
@@ -46,7 +59,7 @@ var app = function() {
         console.log('The id is: ' + id);
         for (var i = 0; i < self.vue.tasks.length; i++) {
             if ( self.vue.tasks[i].id == id) {
-                return self.vue.tasks[i].data;
+                return self.vue.tasks[i];
             }
         }
     }
@@ -68,7 +81,8 @@ var app = function() {
             var newBody = document.createElement('INPUT');
             newBody.setAttribute("id", divId);
             newBody.setAttribute("type", "text");
-            newBody.setAttribute("value", body);
+            // look out here for conflict
+            newBody.setAttribute("value", body.data);
             taskBody.parentNode.replaceChild(newBody, taskBody);
         }
     }
@@ -131,15 +145,25 @@ var app = function() {
     }
 
 
+    self.taskMouseover = function (id) {
+        var task = getElementById(id);
+        if(task.isFocused) {
+                track.isFocused = false;
+        } else {
+                track.isFocused = true;
+        }
+    };
+
     self.vue = new Vue({
         el: "#vue-div",
-        delimiters: ['${', '}'],
+        delimiters: ["<%","%>"],
         unsafeDelimiters: ['{{','}}'],
         data: {
-            tasks: None,
+            tasks: [],
+            taskCount: 0,
         },
-        mounted() {
-            this.initTasks();
+        created() {
+            initTasks()
         },
         methods: {
             initTasks: self.initTasks,
@@ -148,8 +172,11 @@ var app = function() {
             editTask: self.editTask,
             updateTask: self.updateTask,
             deleteTask: self.deleteTask,
-            displayTasks: self.displayTasks,
             removeTaskFromDisplay: self.removeTaskFromDisplay,
+            displayTasks: self.displayTasks,
+            log(item) {
+                console.log(item)
+            },
         }
     });
 

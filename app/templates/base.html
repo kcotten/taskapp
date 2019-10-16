@@ -1,38 +1,50 @@
 <html>
-    <head>
-        <link href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAJ4IXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEREQAAAAAAAREQAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAABAAAAEQAAABEQAAARAAABERAAABEAAAERERERERERERERERERERERH4HwAA/D8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAH5+AAA+fAAAPnwAAAAAAAAAAAAA" rel="icon" type="image/x-icon" />
-        <script
-            src="https://code.jquery.com/jquery-3.4.1.js"
-            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-            crossorigin="anonymous"></script>
-        <script src="/static/vue.js"></script>
-        <link rel="stylesheet" href="/static/styles.css">
-        {% if title %}
-        <title>{{ title }} - Task List</title>
-        {% else %}
-        <title>Task List</title>
-        {% endif %}
-    </head>
-    <body>
-        <div class="navHeader">
-            Task List:
-            <a href="{{ url_for('index') }}">Home</a>
-            {% if current_user.is_anonymous %}
-            <a href="{{ url_for('login') }}">Login</a>
-            {% else %}
-            <a href="{{ url_for('logout') }}">Logout</a>
-            {% endif %}
-        </div>
-        <hr>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-        {% endwith %}
-        {% block content %}{% endblock %}
-    </body>
+
+<head>
+  <link
+    href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAJ4IXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEREQAAAAAAAREQAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAABAAAAEQAAABEQAAARAAABERAAABEAAAERERERERERERERERERERERH4HwAA/D8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAH5+AAA+fAAAPnwAAAAAAAAAAAAA"
+    rel="icon" type="image/x-icon" />
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css"
+    rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+  <script src="/static/vue.js"></script>
+  <link rel="stylesheet" href="/static/styles.css">
+  {% if title %}
+  <title>{{ title }} - Task List</title>
+  {% else %}
+  <title>Task List</title>
+  {% endif %}
+</head>
+
+<body>
+  <div class="navHeader">    
+    <b class="title"> Task List </b>
+    <div class="navButton">
+      <a href="{{ url_for('index') }}">Home</a>
+    </div>
+    {% if current_user.is_anonymous %}
+    <div class="navButton">
+      <a href="{{ url_for('login') }}">Login</a>
+    </div>
+    {% else %}
+    <div class="navButton">
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    {% endif %}
+  </div>
+  <hr>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</body>
+
 </html>

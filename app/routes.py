@@ -87,7 +87,7 @@ def edit():
     return ""
 
 
-@app.route('/getTasks', methods=['GET'])
+@app.route('/getTasks', methods=['GET', 'POST'])
 def getTasks():
     print ('Getting tasks')
     tasks = current_user.user_tasks().all()

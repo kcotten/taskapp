@@ -41,3 +41,27 @@
   width: 50%;
   padding: 10px;
 }
+
+.login {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+  font-size: xx-large;
+}
+
+.navButton {
+  display:inline-block;
+  background-color: #5f9661;
+}
+
+.navButton a {
+  color: white;
+  text-decoration: none;
+  padding: 4px;
+}
+
+.title {
+  font-size: xx-large;
+  color: white;
+}

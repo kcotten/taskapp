@@ -3,7 +3,7 @@
 {% block content %}
 <script>
     var userTaskList = [];
-    var getTasksUrl  = "{{ url_for('getTasks') }}";
+    var getTasksUrl = "{{ url_for('getTasks') }}";
     var deleteTasksUrl = "{{ url_for('delete') }}";
     var editTasksUrl = "{{ url_for('edit') }}";
 </script>
@@ -26,37 +26,39 @@
         </form>
         {% endif %}
     </div>
-    <table id="user_tasks">
+    <table id="user_taskList">
         <tr>
-        <th>Task</th>
-        <th>Edit</th>
-        <th>Delete</th>
+            <th>Task</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
-        <div id="taskList">            
-            {% for task in tasks %}
-                <tr id="{{ task.id }}">
-                <td id="taskBody_{{ task.id }}">
-                    <b>{{ task.body }}</b>
+        <div v-for="{data, id, isEditing, isFocus, _idx} in tasks">
+            <div :load="log(data)"></div>
+            <tr :id="id">
+                <td :id="'taskBody_' + id">
+                    <b>  <%data%>  </b>
                 </td>
-                <td id="taskEditButton_{{ task.id }}">
-                    <button id="editButton_{{ task.id }}" v-on:click='editTask("{{ task.id }}")'>Edit</button>
+                <!-- 
+                <td id="'taskEditButton_' + id">
+                    <i id="'editButton_' + id" v-if="isEditing" class="fas fa-edit editButton"
+                        v-on:mouseover='taskMouseover(id)' v-on:click='editTask(id)'></i>
                 </td>
-                <td id="taskDeleteButton_{{ task.id }}">
-                    <button id="deleteButton_{{ task.id }}" v-on:click='deleteTask("{{ task.id }}")'>Delete</button>
+                <td id="'taskEditButton_' + id">
+                        <i id="'editButton_' + id" v-if="!isEditing" class="fas fa-edit editButton"
+                            v-on:mouseover='taskMouseover(id)' v-on:click='editTask(id)'></i>
+                </td> -->
+
+                <td :id="'taskEditButton_' + id">
+                    <button :id="'editButton_' + id" class="editButton"
+                        v-on:click='editTask(id)'>Edit</button>
                 </td>
-                </tr>
-                <!-- <script>
-                    userTaskList.push("{{ task.body }}");
-                </script> -->
-            {% endfor %}
+                <td :id="'taskDeleteButton_' + id">
+                    <button :id="'deleteButton_' + id" class="deleteButton"
+                        v-on:click='deleteTask(id)'>Delete</button>
+                </td>
+            </tr>
         </div>
     </table>
-    <!-- <a href="{{ url_for('delete') }}">{{ url_for('delete') }}</a> -->
-    <!-- <script>
-        window.onload = function() {
-            taskCollector(userTaskList);
-        }
-    </script> -->
 </div>
 <script src="/static/scripts.js" charset="utf-8"></script>
 {% endblock %}
