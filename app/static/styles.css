@@ -1,20 +1,20 @@
-#user_tasks {
+#user_taskList {
   margin: auto;
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 50%;
 }
   
-#user_tasks td, #user_tasks th {
+#user_taskList td, #user_taskList th {
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-#user_tasks tr:nth-child(even){background-color: #f2f2f2;}
+#user_taskList tr:nth-child(even){background-color: #f2f2f2;}
 
-#user_tasks tr:hover {background-color: #ddd;}
+#user_taskList tr:hover {background-color: #ddd;}
 
-#user_tasks th {
+#user_taskList th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;

@@ -32,32 +32,29 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
-        <div v-for="{data, id, isEditing, isFocus, _idx} in tasks">
-            <div :load="log(data)"></div>
-            <tr :id="id">
-                <td :id="'taskBody_' + id">
-                    <b>  <%data%>  </b>
-                </td>
-                <!-- 
-                <td id="'taskEditButton_' + id">
-                    <i id="'editButton_' + id" v-if="isEditing" class="fas fa-edit editButton"
+        <tr v-for="task in tasks" :key="task.id" :id="task.id">
+            <td :id="'taskBody_' + task.id" :load="log(task)">
+                <b>  <% task.data %>  </b>
+            </td>
+            <!-- 
+            <td id="'taskEditButton_' + id">
+                <i id="'editButton_' + id" v-if="isEditing" class="fas fa-edit editButton"
+                    v-on:mouseover='taskMouseover(id)' v-on:click='editTask(id)'></i>
+            </td>
+            <td id="'taskEditButton_' + id">
+                    <i id="'editButton_' + id" v-if="!isEditing" class="fas fa-edit editButton"
                         v-on:mouseover='taskMouseover(id)' v-on:click='editTask(id)'></i>
-                </td>
-                <td id="'taskEditButton_' + id">
-                        <i id="'editButton_' + id" v-if="!isEditing" class="fas fa-edit editButton"
-                            v-on:mouseover='taskMouseover(id)' v-on:click='editTask(id)'></i>
-                </td> -->
+            </td> -->
 
-                <td :id="'taskEditButton_' + id">
-                    <button :id="'editButton_' + id" class="editButton"
-                        v-on:click='editTask(id)'>Edit</button>
-                </td>
-                <td :id="'taskDeleteButton_' + id">
-                    <button :id="'deleteButton_' + id" class="deleteButton"
-                        v-on:click='deleteTask(id)'>Delete</button>
-                </td>
-            </tr>
-        </div>
+            <td :id="'taskEditButton_' + task.id">
+                <button :id="'editButton_' + task.id" class="editButton"
+                    v-on:click='editTask(task.id)'>Edit</button>
+            </td>
+            <td :id="'taskDeleteButton_' + task.id">
+                <button :id="'deleteButton_' + task.id" class="deleteButton"
+                    v-on:click='deleteTask(task.id)'>Delete</button>
+            </td>
+        </tr>
     </table>
 </div>
 <script src="/static/scripts.js" charset="utf-8"></script>
