@@ -22,10 +22,16 @@
   color: white;
 }
 
+.buttonCell {
+  text-align: center; 
+  vertical-align: middle;
+}
+
 .greet {
   margin: auto;
   width: 50%;
   padding: 10px;
+  text-align: center;
 }
 
 .navHeader {
@@ -40,6 +46,7 @@
   margin: auto;
   width: 50%;
   padding: 10px;
+  text-align: center;
 }
 
 .login {

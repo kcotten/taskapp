@@ -9,8 +9,9 @@ console.log(user_tasks);
 */
 var app = function() {
     const None = undefined;
+    var taskCount = 0;
 
-    var enumerate = function(v) { self.vue.taskCount = 0; return v.map(function(e) {e._idx = self.vue.taskCount++;});};
+    var enumerate = function(v) { taskCount = 0; return v.map(function(e) {e._idx = taskCount++;});};
 
 
     self.initTasks = function() {
@@ -22,8 +23,9 @@ var app = function() {
         enumerate(self.vue.tasks);
         self.vue.tasks.map(function (e) {
             // map anything to the tasks
-            Vue.set(e, 'isEditing', e.taskBeingEdited === "no");
-            Vue.set(e, 'isFocus', false);
+            Vue.set(e, 'isEditing', false);
+            Vue.set(e, 'editIsFocus', false);
+            Vue.set(e, 'deleteIsFocus', false)
         });
     };
 
@@ -36,19 +38,14 @@ var app = function() {
             dataType: "json",
             url: getTasksUrl,
             data: JSON.stringify(param),
-            success: function (response) {
-                //console.log(response.tasks);
-                //self.vue.tasks = response.tasks;                
+            success: function (response) {               
                 var user_objects = JSON.parse(JSON.stringify(response));
-                //console.log(user_objects);
                 var user_tasks = Object.values(user_objects);
-                //console.log(user_tasks);
                 for(var i = 0; i < user_tasks[0].length; i++) {
-                    //console.log(user_tasks[0][i]);
-                    self.vue.tasks.push({ id: user_tasks[0][i].id, data: user_tasks[0][i].data});
+                    if(self.vue.tasks.indexOf({ id: user_tasks[0][i].id, data: user_tasks[0][i].data }) === -1) {
+                        self.vue.tasks.push({ id: user_tasks[0][i].id, data: user_tasks[0][i].data });
+                    }
                 }
-                console.log(self.vue.tasks);
-                console.log(self.vue.tasks[0]);
                 self.processTasks();
             }
         });
@@ -56,7 +53,6 @@ var app = function() {
 
 
     getTaskById = function(id) {
-        console.log('The id is: ' + id);
         for (var i = 0; i < self.vue.tasks.length; i++) {
             if ( self.vue.tasks[i].id == id) {
                 return self.vue.tasks[i];
@@ -65,75 +61,68 @@ var app = function() {
     }
 
 
-    self.editTask = function(idx) {
-        //console.log(body);
-        var editId = "editButton_" + idx; 
-        var body   = getTaskById(idx);
-        if ($("#" + editId).text() === "Update") {
-            console.log("Updating task")
-            updateTask(idx);
-        } else {
-            document.getElementById(editId).innerHTML = "Update";
-            //var taskRow = document.getElementById(idx);
-            //var cols = taskRow.children("td");
-            var divId = "taskBody_" + idx;
-            var taskBody = document.getElementById(divId);
-            var newBody = document.createElement('INPUT');
-            newBody.setAttribute("id", divId);
-            newBody.setAttribute("type", "text");
-            // look out here for conflict
-            newBody.setAttribute("value", body.data);
-            taskBody.parentNode.replaceChild(newBody, taskBody);
-        }
-    }
-
-
-    self.updateTask = function(idx) {        
-        // update table row
-        var editId = "editButton_" + idx;
-        var divId = "taskBody_" + idx;
-        var data = document.getElementById(divId).value;
-        //console.log(data);
-        
-        var taskBody = document.getElementById(divId);
-        var newBody = document.createElement('TD');
-        //newBody.setAttribute("type", "text");
-        newBody.setAttribute("id", divId);
-        newBody.innerHTML = "<b>" + data + "</b>";
-        //newBody.setAttribute("innerHTML", data);
-        taskBody.parentNode.replaceChild(newBody, taskBody);
-        document.getElementById(editId).innerHTML = "Edit";
-        console.log(JSON.stringify({id:idx, body:data}));
-        // update db
+    self.addTask = function(data) {
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
-            url: editTasksUrl,
-            data: JSON.stringify({id : idx, body : data}),
+            url: addTaskUrl,
+            data: JSON.stringify({body : data }),
             success: function (response) {
-                self.getTasks();
+                self.vue.newTask = "";
+                var task_object = JSON.parse(JSON.stringify(response));
+                var task = Object.values(task_object);
+                var mytask = { id: task[0].id, data: task[0].data };
+                self.vue.tasks.unshift(mytask);
+                processTasks();
             }
         });
     }
 
 
-    self.deleteTask = function(idx) {
-        console.log(idx);
+    self.editTask = function(task) {
+        task.isEditing = !task.isEditing;
+        task.editIsFocus = true;
+
+        if(task.isEditing) {
+            console.log("Editing...");
+        } else {
+            console.log("Launching update...");
+            updateTask(task);
+        }
+    }
+
+
+    self.updateTask = function(task) {        
+        // update db
+        $.ajax({
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            url: editTasksUrl,
+            data: JSON.stringify({ id : task.id, body : task.data }),
+            success: function (response) {
+                if(task.editIsFocus === true) {
+                    task.editIsFocus = !task.editIsFocus;
+                }
+            }
+        });
+    }
+
+
+    self.deleteTask = function(id, index) {        
+        var idx = id;
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: deleteTasksUrl,
             data: JSON.stringify({id : idx}),
             success: function (response) {
-                self.getTasks();
-                self.removeTaskFromDisplay(idx);
+                //self.getTasks();
+                //var task = getTaskById(id);
+                //delete self.vue.tasks[task.idx];
+                self.vue.tasks.splice(index, 1);
+                //processTasks();
             }
         });
-    }
-
-
-    self.removeTaskFromDisplay = function(idx) {
-        document.getElementById(idx).remove();
     }
 
 
@@ -145,14 +134,32 @@ var app = function() {
     }
 
 
-    self.taskMouseover = function (id) {
-        var task = getElementById(id);
-        if(task.isFocused) {
-                track.isFocused = false;
+    self.taskEditMouseover = function (task) {
+        if(task.isEditing) {
+            task.editIsFocus = true;
         } else {
-                track.isFocused = true;
+            if(task.editIsFocus) {
+                    task.editIsFocus = false;
+            } else {
+                    task.editIsFocus = true;
+            }
         }
     };
+
+
+    self.taskDeleteMouseover = function (task) {
+        if(task.deleteIsFocus) {
+                task.deleteIsFocus = false;
+        } else {
+                task.deleteIsFocus = true;
+        }
+    };
+
+
+    self.log = function (v) {
+        console.log(v)
+    };
+
 
     self.vue = new Vue({
         el: "#vue-div",
@@ -160,7 +167,7 @@ var app = function() {
         unsafeDelimiters: ['{{','}}'],
         data: {
             tasks: [],
-            taskCount: 0,
+            newTask: "",
         },
         created() {
             initTasks()
@@ -169,14 +176,15 @@ var app = function() {
             initTasks: self.initTasks,
             processTasks: self.processTasks,
             getTasks: self.getTasks,
+            addTask: self.addTask,
             editTask: self.editTask,
             updateTask: self.updateTask,
             deleteTask: self.deleteTask,
-            removeTaskFromDisplay: self.removeTaskFromDisplay,
+            //removeTaskFromDisplay: self.removeTaskFromDisplay,
             displayTasks: self.displayTasks,
-            log(item) {
-                console.log(item)
-            },
+            taskEditMouseover: self.taskEditMouseover,
+            taskDeleteMouseover: self.taskDeleteMouseover,
+            log: self.log,
         }
     });
 

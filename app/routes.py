@@ -11,16 +11,25 @@ from app.forms import LoginForm, RegistrationForm, TaskForm
 @login_required
 def index():
     form = TaskForm()
-    if form.validate_on_submit():
-        task = Task(body=form.task.data, user_id=current_user.id)
-        db.session.add(task)
-        db.session.commit()
-        #flash('Your task is now live!')
-        return redirect(url_for('index'))
     tasks = current_user.user_tasks().all()
     return render_template("index.html", title='Home Page', form=form,
                            tasks=tasks)
 
+
+@app.route('/add', methods=['GET', 'POST'])
+def add():
+    body = request.json['body']
+    print(body)
+    task = Task(body=body, user_id=current_user.id)
+    db.session.add(task)
+    db.session.commit()
+    ret = Task.query.filter_by(body=body).first()
+    taskToAdd = dict(
+            id = int(ret.id),
+            data = ret.body
+        )
+    print('Task added')
+    return jsonify(task=taskToAdd)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

@@ -2,29 +2,18 @@
 
 {% block content %}
 <script>
-    var userTaskList = [];
     var getTasksUrl = "{{ url_for('getTasks') }}";
     var deleteTasksUrl = "{{ url_for('delete') }}";
     var editTasksUrl = "{{ url_for('edit') }}";
+    var addTaskUrl = "{{ url_for('add') }}";
 </script>
 <div id="vue-div">
     <div class="greet">
         <h1>Hi, {{ current_user.username }}!</h1>
     </div>
     <div id="taskForm">
-        {% if form %}
-        <form action="" method="post">
-            {{ form.hidden_tag() }}
-            <p>
-                {{ form.task.label }}<br>
-                {{ form.task(cols=64, rows=3) }}<br>
-                {% for error in form.task.errors %}
-                <span style="color: red;">[{{ error }}]</span>
-                {% endfor %}
-            </p>
-            <p>{{ form.submit() }}</p>
-        </form>
-        {% endif %}
+        <textarea v-model="newTask" placeholder="Hit the books!"></textarea>
+        <button v-on:click="addTask(newTask)"><span><i class="fas fa-arrow-right"></i></span></button>
     </div>
     <table id="user_taskList">
         <tr>
@@ -32,27 +21,38 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
-        <tr v-for="task in tasks" :key="task.id" :id="task.id">
-            <td :id="'taskBody_' + task.id" :load="log(task)">
+        <tr v-for="(task, index) in tasks" :key="index" :id="task.id">
+            <td v-if="task.isEditing">
+                <textarea v-model="task.data"></textarea>
+                <button v-on:click="editTask(task)">Done</button>
+            </td>
+            <td v-if="!task.isEditing" :id="'taskBody_' + task.id" :load="log(task)">
                 <b>  <% task.data %>  </b>
             </td>
-            <!-- 
-            <td id="'taskEditButton_' + id">
-                <i id="'editButton_' + id" v-if="isEditing" class="fas fa-edit editButton"
-                    v-on:mouseover='taskMouseover(id)' v-on:click='editTask(id)'></i>
+            <td id="'taskEditButton_' + task.id" class="buttonCell" v-if="task.editIsFocus">
+                <i id="'editButton_' + task.id"  class="fas fa-edit"
+                    v-on:mouseover='taskEditMouseover(task)'
+                    v-on:mouseout='taskEditMouseover(task)'
+                    v-on:click='editTask(task)'></i>
             </td>
-            <td id="'taskEditButton_' + id">
-                    <i id="'editButton_' + id" v-if="!isEditing" class="fas fa-edit editButton"
-                        v-on:mouseover='taskMouseover(id)' v-on:click='editTask(id)'></i>
-            </td> -->
+            <td id="'taskEditButton_' + task.id" class="buttonCell" v-if="!task.editIsFocus">
+                    <i id="'editButton_' + task.id" class="far fa-edit"
+                        v-on:mouseover='taskEditMouseover(task)'
+                        v-on:mouseout='taskEditMouseover(task)'
+                        v-on:click='editTask(task)'></i>
+            </td>
 
-            <td :id="'taskEditButton_' + task.id">
-                <button :id="'editButton_' + task.id" class="editButton"
-                    v-on:click='editTask(task.id)'>Edit</button>
+            <td id="'taskDeleteButton_' + task.id" class="buttonCell" v-if="task.deleteIsFocus">
+                <i id="'editButton_' + task.id"  class="fas fa-trash-alt"
+                    v-on:mouseover='taskDeleteMouseover(task)'
+                    v-on:mouseout='taskDeleteMouseover(task)'
+                    v-on:click='deleteTask(task.id, index)'></i>
             </td>
-            <td :id="'taskDeleteButton_' + task.id">
-                <button :id="'deleteButton_' + task.id" class="deleteButton"
-                    v-on:click='deleteTask(task.id)'>Delete</button>
+            <td id="'taskDeleteButton_' + task.id" class="buttonCell" v-if="!task.deleteIsFocus">
+                    <i id="'editButton_' + task.id" class="far fa-trash-alt"
+                        v-on:mouseover='taskDeleteMouseover(task)'
+                        v-on:mouseout='taskDeleteMouseover(task)'
+                        v-on:click='deleteTask(task.id, index)'></i>
             </td>
         </tr>
     </table>
