@@ -21,11 +21,12 @@
             <th>Edit</th>
             <th>Delete</th>
         </tr>
-        <tr v-for="(task, index) in tasks" :key="index" :id="task.id">
+        <tr v-for="(task, index) in tasks" :key="task.id" :id="task.id">
             <td v-if="task.isEditing">
                 <textarea v-model="task.data"></textarea>
-                <button v-on:click="editTask(task)">Done</button>
+                <!--<button v-on:click="editTask(task)">Done</button> -->
             </td>
+            <!-- For logging use -> " -->
             <td v-if="!task.isEditing" :id="'taskBody_' + task.id" :load="log(task)">
                 <b>  <% task.data %>  </b>
             </td>

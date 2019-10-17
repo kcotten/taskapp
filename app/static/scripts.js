@@ -11,7 +11,7 @@ var app = function() {
     const None = undefined;
     var taskCount = 0;
 
-    var enumerate = function(v) { taskCount = 0; return v.map(function(e) {e._idx = taskCount++;});};
+    var enumerate = function(v) { taskCount = 0; return v.map(function(e) {e.index = taskCount++;});};
 
 
     self.initTasks = function() {
@@ -24,8 +24,9 @@ var app = function() {
         self.vue.tasks.map(function (e) {
             // map anything to the tasks
             Vue.set(e, 'isEditing', false);
+            //Vue.set(e, 'isDeleting', false);
             Vue.set(e, 'editIsFocus', false);
-            Vue.set(e, 'deleteIsFocus', false)
+            Vue.set(e, 'deleteIsFocus', false);
         });
     };
 
@@ -80,35 +81,41 @@ var app = function() {
 
 
     self.editTask = function(task) {
-        task.isEditing = !task.isEditing;
-        task.editIsFocus = true;
+        task.isEditing = !task.isEditing;        
 
         if(task.isEditing) {
+            task.editIsFocus = true;
             console.log("Editing...");
         } else {
+            task.isEditing = false;
+            //task.editIsFocus = false;
+            //console.log(task.editIsFocus);
             console.log("Launching update...");
             updateTask(task);
         }
     }
 
 
-    self.updateTask = function(task) {        
-        // update db
+    self.updateTask = function(task) {
+        if(task.data == None) {
+            task.data = "";
+        }
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: editTasksUrl,
             data: JSON.stringify({ id : task.id, body : task.data }),
             success: function (response) {
-                if(task.editIsFocus === true) {
-                    task.editIsFocus = !task.editIsFocus;
-                }
+
             }
         });
     }
 
 
-    self.deleteTask = function(id, index) {        
+    self.deleteTask = function(id, index) {
+        //console.log("Before splice: " + index);
+        var updateTask = getTaskById(id);
+        self.vue.tasks[index].deleteIsFocus = false;
         var idx = id;
         $.ajax({
             type: "POST",
@@ -116,13 +123,21 @@ var app = function() {
             url: deleteTasksUrl,
             data: JSON.stringify({id : idx}),
             success: function (response) {
-                //self.getTasks();
-                //var task = getTaskById(id);
-                //delete self.vue.tasks[task.idx];
-                self.vue.tasks.splice(index, 1);
-                //processTasks();
+                //self.vue.tasks.splice(index, 1);
+                //console.log("After splice: " + index);
+                //Vue.delete(self.vue.tasks, index)
+                //console.log(self.vue.tasks[index]);
+
+                /* self.vue.tasks = self.vue.tasks.filter(function(task) {
+                    return task.index != index;
+                });
+                processTasks();
+                console.log(self.vue.tasks[index].deleteIsFocus); */
+                self.vue.tasks = [];
+                getTasks();
             }
         });
+        Vue.set(self.vue.tasks[index], 'deleteIsFocus', false);
     }
 
 
@@ -139,9 +154,9 @@ var app = function() {
             task.editIsFocus = true;
         } else {
             if(task.editIsFocus) {
-                    task.editIsFocus = false;
+                task.editIsFocus = false;
             } else {
-                    task.editIsFocus = true;
+                task.editIsFocus = true;
             }
         }
     };
@@ -149,9 +164,9 @@ var app = function() {
 
     self.taskDeleteMouseover = function (task) {
         if(task.deleteIsFocus) {
-                task.deleteIsFocus = false;
+            task.deleteIsFocus = false;
         } else {
-                task.deleteIsFocus = true;
+            task.deleteIsFocus = true;
         }
     };
 
