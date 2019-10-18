@@ -23,7 +23,7 @@
         </tr>
         <tr v-for="(task, index) in tasks" :key="task.id" :id="task.id">
             <td v-if="task.isEditing">
-                <textarea v-model="task.data" rows="4" columns="128"></textarea>
+                <textarea rows="8" cols="128" v-model="task.data"></textarea>
                 <!--<button v-on:click="editTask(task)">Done</button> -->
             </td>
             <!-- For logging use -> " -->

@@ -80,3 +80,8 @@
   font-size: xx-large;
   color: white;
 }
+
+textarea {
+  height: 6%;
+  width: 45%;
+}
