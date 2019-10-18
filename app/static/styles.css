@@ -3,11 +3,19 @@
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 50%;
+  
 }
   
-#user_taskList td, #user_taskList th {
+#user_taskList th {
   border: 1px solid #ddd;
   padding: 8px;
+}
+
+#user_taskList td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  display: table-cell;
+  word-break:break-all;
 }
 
 #user_taskList tr:nth-child(even){background-color: #f2f2f2;}

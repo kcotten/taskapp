@@ -115,7 +115,8 @@ var app = function() {
     self.deleteTask = function(id, index) {
         //console.log("Before splice: " + index);
         var updateTask = getTaskById(id);
-        self.vue.tasks[index].deleteIsFocus = false;
+        //self.vue.tasks[index].deleteIsFocus = false;
+        Vue.set(self.vue.tasks[index], 'deleteIsFocus', false);
         var idx = id;
         $.ajax({
             type: "POST",
@@ -128,13 +129,13 @@ var app = function() {
                 //Vue.delete(self.vue.tasks, index)
                 //console.log(self.vue.tasks[index]);
 
-                /* self.vue.tasks = self.vue.tasks.filter(function(task) {
+                self.vue.tasks = self.vue.tasks.filter(function(task) {
                     return task.index != index;
                 });
                 processTasks();
-                console.log(self.vue.tasks[index].deleteIsFocus); */
-                self.vue.tasks = [];
-                getTasks();
+                //console.log(self.vue.tasks[index].deleteIsFocus);
+                //self.vue.tasks = [];
+                //getTasks();
             }
         });
         Vue.set(self.vue.tasks[index], 'deleteIsFocus', false);
