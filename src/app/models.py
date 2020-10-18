@@ -4,6 +4,7 @@ from app import login
 from flask_login import UserMixin
 from app import db
 
+
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -21,7 +22,8 @@ class User(UserMixin, db.Model):
         return own.order_by(Task.timestamp.desc())
 
     def __repr__(self):
-        return '<User {}>'.format(self.username)  
+        return '<User {}>'.format(self.username)
+
 
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,6 +33,7 @@ class Task(db.Model):
 
     def __repr__(self):
         return '<Task {}>'.format(self.body)
+
 
 @login.user_loader
 def load_user(id):

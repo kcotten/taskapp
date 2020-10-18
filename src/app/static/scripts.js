@@ -1,25 +1,16 @@
-// check if vars are available
-/*
-var user_tasks = [];
-function taskCollector(tasks) {
-    user_tasks = tasks;
-}
-
-console.log(user_tasks);
-*/
-var app = function() {
+var app = function () {
     const None = undefined;
     var taskCount = 0;
 
-    var enumerate = function(v) { taskCount = 0; return v.map(function(e) {e.index = taskCount++;});};
+    var enumerate = function (v) { taskCount = 0; return v.map(function (e) { e.index = taskCount++; }); };
 
 
-    self.initTasks = function() {
+    self.initTasks = function () {
         self.getTasks();
     }
 
 
-    self.processTasks = function() { 
+    self.processTasks = function () {
         enumerate(self.vue.tasks);
         self.vue.tasks.map(function (e) {
             // map anything to the tasks
@@ -31,7 +22,7 @@ var app = function() {
     };
 
 
-    self.getTasks = function() {
+    self.getTasks = function () {
         var param = None;
         $.ajax({
             type: "POST",
@@ -39,11 +30,11 @@ var app = function() {
             dataType: "json",
             url: getTasksUrl,
             data: JSON.stringify(param),
-            success: function (response) {               
+            success: function (response) {
                 var user_objects = JSON.parse(JSON.stringify(response));
                 var user_tasks = Object.values(user_objects);
-                for(var i = 0; i < user_tasks[0].length; i++) {
-                    if(self.vue.tasks.indexOf({ id: user_tasks[0][i].id, data: user_tasks[0][i].data }) === -1) {
+                for (var i = 0; i < user_tasks[0].length; i++) {
+                    if (self.vue.tasks.indexOf({ id: user_tasks[0][i].id, data: user_tasks[0][i].data }) === -1) {
                         self.vue.tasks.push({ id: user_tasks[0][i].id, data: user_tasks[0][i].data });
                     }
                 }
@@ -53,21 +44,21 @@ var app = function() {
     };
 
 
-    getTaskById = function(id) {
+    getTaskById = function (id) {
         for (var i = 0; i < self.vue.tasks.length; i++) {
-            if ( self.vue.tasks[i].id == id) {
+            if (self.vue.tasks[i].id == id) {
                 return self.vue.tasks[i];
             }
         }
     }
 
 
-    self.addTask = function(data) {
+    self.addTask = function (data) {
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: addTaskUrl,
-            data: JSON.stringify({body : data }),
+            data: JSON.stringify({ body: data }),
             success: function (response) {
                 self.vue.newTask = "";
                 var task_object = JSON.parse(JSON.stringify(response));
@@ -80,10 +71,10 @@ var app = function() {
     }
 
 
-    self.editTask = function(task) {
-        task.isEditing = !task.isEditing;        
+    self.editTask = function (task) {
+        task.isEditing = !task.isEditing;
 
-        if(task.isEditing) {
+        if (task.isEditing) {
             task.editIsFocus = true;
             console.log("Editing...");
         } else {
@@ -96,15 +87,15 @@ var app = function() {
     }
 
 
-    self.updateTask = function(task) {
-        if(task.data == None) {
+    self.updateTask = function (task) {
+        if (task.data == None) {
             task.data = "";
         }
         $.ajax({
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: editTasksUrl,
-            data: JSON.stringify({ id : task.id, body : task.data }),
+            data: JSON.stringify({ id: task.id, body: task.data }),
             success: function (response) {
 
             }
@@ -112,7 +103,7 @@ var app = function() {
     }
 
 
-    self.deleteTask = function(id, index) {
+    self.deleteTask = function (id, index) {
         //console.log("Before splice: " + index);
         var updateTask = getTaskById(id);
         //self.vue.tasks[index].deleteIsFocus = false;
@@ -122,14 +113,14 @@ var app = function() {
             type: "POST",
             contentType: "application/json; charset=utf-8",
             url: deleteTasksUrl,
-            data: JSON.stringify({id : idx}),
+            data: JSON.stringify({ id: idx }),
             success: function (response) {
                 //self.vue.tasks.splice(index, 1);
                 //console.log("After splice: " + index);
                 //Vue.delete(self.vue.tasks, index)
                 //console.log(self.vue.tasks[index]);
 
-                self.vue.tasks = self.vue.tasks.filter(function(task) {
+                self.vue.tasks = self.vue.tasks.filter(function (task) {
                     return task.index != index;
                 });
                 processTasks();
@@ -142,7 +133,7 @@ var app = function() {
     }
 
 
-    self.displayTasks = function() {
+    self.displayTasks = function () {
         var taskTable = this.document.getElementById("taskList");
         for (task in self.vue.tasks) {
 
@@ -151,10 +142,10 @@ var app = function() {
 
 
     self.taskEditMouseover = function (task) {
-        if(task.isEditing) {
+        if (task.isEditing) {
             task.editIsFocus = true;
         } else {
-            if(task.editIsFocus) {
+            if (task.editIsFocus) {
                 task.editIsFocus = false;
             } else {
                 task.editIsFocus = true;
@@ -164,7 +155,7 @@ var app = function() {
 
 
     self.taskDeleteMouseover = function (task) {
-        if(task.deleteIsFocus) {
+        if (task.deleteIsFocus) {
             task.deleteIsFocus = false;
         } else {
             task.deleteIsFocus = true;
@@ -176,11 +167,17 @@ var app = function() {
         console.log(v)
     };
 
+    self.dismissAlert = function () {
+        var x = document.getElementById("alert");
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+    }
+
 
     self.vue = new Vue({
         el: "#vue-div",
-        delimiters: ["<%","%>"],
-        unsafeDelimiters: ['{{','}}'],
+        delimiters: ["<%", "%>"],
+        unsafeDelimiters: ['{{', '}}'],
         data: {
             tasks: [],
             newTask: "",
@@ -201,6 +198,7 @@ var app = function() {
             taskEditMouseover: self.taskEditMouseover,
             taskDeleteMouseover: self.taskDeleteMouseover,
             log: self.log,
+            dismissAlert: self.dismissAlert,
         }
     });
 
@@ -209,4 +207,4 @@ var app = function() {
 
 var APP = null;
 
-jQuery(function(){APP = app();});
+jQuery(function () { APP = app(); });

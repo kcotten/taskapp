@@ -25,11 +25,12 @@ def add():
     db.session.commit()
     ret = Task.query.filter_by(body=body).first()
     taskToAdd = dict(
-            id = int(ret.id),
-            data = ret.body
-        )
+        id=int(ret.id),
+        data=ret.body
+    )
     print('Task added')
     return jsonify(task=taskToAdd)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -98,14 +99,13 @@ def edit():
 
 @app.route('/getTasks', methods=['GET', 'POST'])
 def getTasks():
-    print ('Getting tasks')
+    print('Getting tasks')
     tasks = current_user.user_tasks().all()
     userTasks = []
     for task in tasks:
         taskToAdd = dict(
-            id = int(task.id),
-            data = task.body
+            id=int(task.id),
+            data=task.body
         )
         userTasks.append(taskToAdd)
     return jsonify(dict(tasks=userTasks))
-

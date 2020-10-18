@@ -4,12 +4,10 @@
   <link
     href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAJ4IXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEREQAAAAAAAREQAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAAAAAAAEQAAAAAAAAARAAAAAAAAABEAAAABAAAAEQAAABEQAAARAAABERAAABEAAAERERERERERERERERERERERH4HwAA/D8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAP5/AAD+fwAA/n8AAH5+AAA+fAAAPnwAAAAAAAAAAAAA"
     rel="icon" type="image/x-icon" />
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
-    rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
   <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
-  <script src="/static/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <link rel="stylesheet" href="/static/styles.css">
   {% if title %}
   <title>{{ title }} - Task List</title>
@@ -19,7 +17,7 @@
 </head>
 
 <body>
-  <div class="navHeader">    
+  <div class="navHeader">
     <b class="title"> Task List </b>
     <div class="navButton">
       <a href="{{ url_for('index') }}">Home</a>
@@ -34,17 +32,20 @@
     </div>
     {% endif %}
   </div>
-  <hr>
-  {% with messages = get_flashed_messages() %}
-  {% if messages %}
-  <ul>
+  <div class="flashedMessages">
+    <hr>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
     {% for message in messages %}
-    <li>{{ message }}</li>
+    <div class="alert">
+      <span class="close" onclick="this.parentElement.style.display='none';">&times;</span>
+      {{ message }}
+    </div>
     {% endfor %}
-  </ul>
-  {% endif %}
-  {% endwith %}
-  {% block content %}{% endblock %}
+    {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
 </body>
+</div>
 
 </html>

@@ -1,0 +1,139 @@
+#user_taskList {
+  margin: auto;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 50%;
+  table-layout: fixed;
+}
+  
+#user_taskList th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  vertical-align: middle;
+  background-color: #4CAF50;
+  color: white;
+  border: 1px solid white;
+}
+
+#user_taskList td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  display: table-cell;
+  word-break:break-all;
+}
+
+#user_taskList tr:nth-child(even){background-color: #f2f2f2;}
+
+#user_taskList tr:hover {background-color: #ddd;}
+
+.tableLeftColumn {
+  width: 67%;
+}
+
+.tableColumn {
+  width: 16.5%
+}
+
+.buttonCell {
+  text-align: center; 
+  vertical-align: middle;
+}
+
+.greet {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
+
+.navHeader {
+  width: 100%;
+  background-color: #4CAF50;
+  padding: 12px;
+  text-align: center;
+  font-size: x-large;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+}
+
+#taskForm {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
+
+.login {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+  font-size: xx-large;
+}
+
+.register {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+  font-size: x-large;
+}
+
+.flashedMessages {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
+
+.navButton {
+  display:inline-block;
+  background-color: #5f9661;
+}
+
+.navButton a {
+  color: white;
+  text-decoration: none;
+  padding: 4px;
+}
+
+.title {
+  font-size: xx-large;
+  color: white;
+}
+
+textarea {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  height: 6%;
+  width: 45%;
+}
+
+/* Alert - position it at the top and in the middle of the screen */
+.alert {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  padding: 20px;
+  background-color: #ff8c84;
+  color: black;
+  opacity: 1;
+  transition: opacity 0.6s;
+  margin-bottom: 15px;
+}
+
+.close {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.close:hover {
+  color: white;
+}
