@@ -33,7 +33,6 @@
     {% endif %}
   </div>
   <div class="flashedMessages">
-    <hr>
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
@@ -45,7 +44,7 @@
     {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}
+  </div>
 </body>
-</div>
 
 </html>

@@ -167,12 +167,6 @@ var app = function () {
         console.log(v)
     };
 
-    self.dismissAlert = function () {
-        var x = document.getElementById("alert");
-        x.className = "show";
-        setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
-    }
-
 
     self.vue = new Vue({
         el: "#vue-div",
@@ -193,12 +187,10 @@ var app = function () {
             editTask: self.editTask,
             updateTask: self.updateTask,
             deleteTask: self.deleteTask,
-            //removeTaskFromDisplay: self.removeTaskFromDisplay,
             displayTasks: self.displayTasks,
             taskEditMouseover: self.taskEditMouseover,
             taskDeleteMouseover: self.taskDeleteMouseover,
             log: self.log,
-            dismissAlert: self.dismissAlert,
         }
     });
 
