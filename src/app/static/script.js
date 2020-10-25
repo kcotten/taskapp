@@ -77,10 +77,9 @@ var app = function () {
         task.isChecked = false;
         if (task.isEditing) {
             task.editIsFocus = true;
-            console.log("Editing...");
         } else {
             task.isEditing = false;
-            console.log("Launching update...");
+            task.editIsFocus = false;
             updateTask(task);
         }
     }

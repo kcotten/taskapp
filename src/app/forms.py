@@ -13,8 +13,10 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    email = StringField('Email', validators=[
+                        DataRequired(), Email(message='Not a valid email address.')])
+    password = PasswordField('Password', validators=[
+                             DataRequired(message='Please enter a password.')])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
@@ -33,4 +35,3 @@ class RegistrationForm(FlaskForm):
 class TaskForm(FlaskForm):
     task = TextAreaField('What to do next', validators=[
         DataRequired(), Length(min=1, max=140)])
-    #submit = SubmitField('Submit')

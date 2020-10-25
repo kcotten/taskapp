@@ -36,11 +36,24 @@
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     {% for message in messages %}
-    <div class="alert">
+    <div id="alert">
       <span class="close" onclick="this.parentElement.style.display='none';">&times;</span>
       {{ message }}
     </div>
     {% endfor %}
+    <script>
+      setTimeout(
+        function () {
+          var division = document.getElementById('alert');
+          console.log(division)
+          division.style.transition = ' opacity ' + 3 + 's';
+          division.style.opacity = 0;
+          division.addEventListener('transitionend', function () {
+            division.style.display = 'none';
+          });
+
+        }, 2000);
+    </script>
     {% endif %}
     {% endwith %}
     {% block content %}{% endblock %}

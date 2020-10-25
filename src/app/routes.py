@@ -19,7 +19,7 @@ def index():
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     body = request.json['body']
-    print(body)
+    body = body.strip('\n')
     task = Task(body=body, user_id=current_user.id)
     db.session.add(task)
     db.session.commit()
@@ -28,7 +28,6 @@ def add():
         id=int(ret.id),
         data=ret.body
     )
-    print('Task added')
     return jsonify(task=taskToAdd)
 
 

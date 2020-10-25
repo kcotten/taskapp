@@ -26,6 +26,8 @@
 
 #user_taskList tr:nth-child(even){background-color: #f2f2f2;}
 
+#user_taskList tr:nth-child(odd){background-color: #f2f2f2b6;}
+
 #user_taskList tr:hover {background-color: #ddd;}
 
 .tableLeftColumn {
@@ -43,6 +45,7 @@
 
 .greet {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: x-large;
   margin: auto;
   width: 50%;
   padding: 10px;
@@ -62,7 +65,6 @@
 #taskForm {
   margin: auto;
   width: 100%;
-  padding: 10px;
   text-align: center;
 }
 
@@ -110,15 +112,20 @@
 
 textarea {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-size: 16px;
   height: 6%;
-  width: 45%;
+  width: 75%;
+  border: 1px solid white;
 }
 
 /* Alert - position it at the top and in the middle of the screen */
-.alert {
+/* Error:   background-color: #ff8c84; */
+/* Warning: background-color: */
+/* Info:    background-color: #84b5ff*/
+#alert {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   padding: 20px;
-  background-color: #ff8c84;
+  background-color: #84b5ff;
   color: black;
   opacity: 1;
   margin-bottom: 15px;
@@ -152,4 +159,54 @@ textarea {
 
 body{
   margin:0;
+}
+
+.inputArrow {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  padding: 12px 16px;
+  font-size: 20px;
+  cursor: pointer;
+  float: right;
+  height: 6%;
+  color: white;
+  border: 1px solid white;
+  width: 25%;
+  background-color: #5f9661;
+}
+
+.editArrow {
+  margin: 0;
+  margin-left: 5%;
+  width:15%;
+  position: absolute;
+  font-size: 16px;
+  padding: 0;
+  height: 18%;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+.editingColumn {
+  position: relative;
+}
+
+.errors {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  list-style: none;
+  margin: 10px 0;
+  position: absolute;
+  z-index: 10;
+  right: -222px;
+  top: 0;
+  bottom: 0;
+  background: #fae7ea;
+  padding: 9px 15px;
+  border-radius: 3px;
+  border: 1px solid #e1c5c5;
+  color: #8d7575;
+  width: 182px;
+  text-align: center;
+  height: fit-content;
+  margin: auto;
 }

@@ -9,11 +9,12 @@
 </script>
 <div id="vue-div">
   <div class="greet">
-    <h1>Hi, {{ current_user.username }}!</h1>
+    <p>Hi, {{ current_user.username }}!</p>
   </div>
   <div id="taskForm">
     <textarea v-model="newTask" placeholder="Hit the books!" v-on:keyup.enter="addTask(newTask)"></textarea>
-    <button v-on:click="addTask(newTask)"><span><i class="fas fa-arrow-right"></i></span></button>
+    <button class="inputArrow" v-on:click="addTask(newTask)"><span>Add&nbsp;&nbsp;
+        <i class="fas fa-arrow-alt-circle-right"></i></span></button>
   </div>
   <table id="user_taskList">
     <tr>
@@ -31,9 +32,10 @@
         <i id="'checkbox_' + task.id" class="far fa-check-square" v-on:mouseover='taskCheckboxMouseover(task)'
           v-on:mouseout='taskCheckboxMouseover(task)' v-on:click='checkTask(task)'></i>
       </td>
-      <td v-if="task.isEditing" class="tableLeftColumn">
+      <td v-if="task.isEditing" class="tableLeftColumn editingColumn">
         <textarea rows="8" cols="128" v-model="task.data" v-on:keyup.ctrl.enter='editTask(task)'></textarea>
-        <button v-on:click="editTask(task)"><span><i class="fas fa-arrow-right"></i></span></button>
+        <button class="inputArrow editArrow" v-on:click="editTask(task)"><span><i
+              class="fas fa-arrow-alt-circle-right"></i></span></button>
       </td>
       <!-- For logging use :load="log(task)"-> " -->
       <td v-if="!task.isEditing" class="tableLeftColumn" :id="'taskBody_' + task.id">
@@ -59,5 +61,5 @@
     </tr>
   </table>
 </div>
-<script src="/static/scripts.js" charset="utf-8"></script>
+<script src="/static/script.js" charset="utf-8"></script>
 {% endblock %}
