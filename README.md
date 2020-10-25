@@ -1,3 +1,3 @@
 # taskapp
 
-Task list app using flask and vue.
+Task list app using flask, vue and a sqlite database.
