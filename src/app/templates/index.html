@@ -12,23 +12,33 @@
     <h1>Hi, {{ current_user.username }}!</h1>
   </div>
   <div id="taskForm">
-    <textarea v-model="newTask" placeholder="Hit the books!"></textarea>
+    <textarea v-model="newTask" placeholder="Hit the books!" v-on:keyup.enter="addTask(newTask)"></textarea>
     <button v-on:click="addTask(newTask)"><span><i class="fas fa-arrow-right"></i></span></button>
   </div>
   <table id="user_taskList">
     <tr>
+      <th class="tableColumn">Done</th>
       <th class="tableLeftColumn">Task</th>
       <th class="tableColumn">Edit</th>
       <th class="tableColumn">Delete</th>
     </tr>
     <tr v-for="(task, index) in tasks" :key="task.id" :id="task.id">
+      <td id="'taskCheckbox_' + task.id" class="buttonCell tableColumn" v-if="task.checkboxIsFocus">
+        <i id="'checkbox_ + task.id" class="fas fa-check-square" v-on:mouseover='taskCheckboxMouseover(task)'
+          v-on:mouseout='taskCheckboxMouseover(task)' v-on:click='checkTask(task)'></i>
+      </td>
+      <td id="'taskCheckbox_' + task.id" class="buttonCell tableColumn" v-if="!task.checkboxIsFocus">
+        <i id="'checkbox_' + task.id" class="far fa-check-square" v-on:mouseover='taskCheckboxMouseover(task)'
+          v-on:mouseout='taskCheckboxMouseover(task)' v-on:click='checkTask(task)'></i>
+      </td>
       <td v-if="task.isEditing" class="tableLeftColumn">
         <textarea rows="8" cols="128" v-model="task.data" v-on:keyup.ctrl.enter='editTask(task)'></textarea>
         <button v-on:click="editTask(task)"><span><i class="fas fa-arrow-right"></i></span></button>
       </td>
       <!-- For logging use :load="log(task)"-> " -->
       <td v-if="!task.isEditing" class="tableLeftColumn" :id="'taskBody_' + task.id">
-        <b> <% task.data %> </b>
+        <b v-if="task.isChecked"><s><% task.data %></s></b>
+        <b v-if="!task.isChecked"><% task.data %></b>
       </td>
       <td id="'taskEditButton_' + task.id" class="buttonCell tableColumn" v-if="task.editIsFocus">
         <i id="'editButton_' + task.id" class="fas fa-edit" v-on:mouseover='taskEditMouseover(task)'
@@ -38,13 +48,12 @@
         <i id="'editButton_' + task.id" class="far fa-edit" v-on:mouseover='taskEditMouseover(task)'
           v-on:mouseout='taskEditMouseover(task)' v-on:click='editTask(task)'></i>
       </td>
-
       <td id="'taskDeleteButton_' + task.id" class="buttonCell tableColumn" v-if="task.deleteIsFocus">
-        <i id="'editButton_' + task.id" class="fas fa-trash-alt" v-on:mouseover='taskDeleteMouseover(task)'
+        <i id="'deleteButton_' + task.id" class="fas fa-trash-alt" v-on:mouseover='taskDeleteMouseover(task)'
           v-on:mouseout='taskDeleteMouseover(task)' v-on:click='deleteTask(task.id, index)'></i>
       </td>
       <td id="'taskDeleteButton_' + task.id" class="buttonCell tableColumn" v-if="!task.deleteIsFocus">
-        <i id="'editButton_' + task.id" class="far fa-trash-alt" v-on:mouseover='taskDeleteMouseover(task)'
+        <i id="'deleteButton_' + task.id" class="far fa-trash-alt" v-on:mouseover='taskDeleteMouseover(task)'
           v-on:mouseout='taskDeleteMouseover(task)' v-on:click='deleteTask(task.id, index)'></i>
       </td>
     </tr>

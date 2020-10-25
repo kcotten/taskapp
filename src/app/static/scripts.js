@@ -15,9 +15,10 @@ var app = function () {
         self.vue.tasks.map(function (e) {
             // map anything to the tasks
             Vue.set(e, 'isEditing', false);
-            //Vue.set(e, 'isDeleting', false);
             Vue.set(e, 'editIsFocus', false);
             Vue.set(e, 'deleteIsFocus', false);
+            Vue.set(e, 'isChecked', false);
+            Vue.set(e, 'checkboxIsFocus', false);
         });
     };
 
@@ -73,14 +74,12 @@ var app = function () {
 
     self.editTask = function (task) {
         task.isEditing = !task.isEditing;
-
+        task.isChecked = false;
         if (task.isEditing) {
             task.editIsFocus = true;
             console.log("Editing...");
         } else {
             task.isEditing = false;
-            //task.editIsFocus = false;
-            //console.log(task.editIsFocus);
             console.log("Launching update...");
             updateTask(task);
         }
@@ -104,9 +103,7 @@ var app = function () {
 
 
     self.deleteTask = function (id, index) {
-        //console.log("Before splice: " + index);
         var updateTask = getTaskById(id);
-        //self.vue.tasks[index].deleteIsFocus = false;
         Vue.set(self.vue.tasks[index], 'deleteIsFocus', false);
         var idx = id;
         $.ajax({
@@ -115,18 +112,10 @@ var app = function () {
             url: deleteTasksUrl,
             data: JSON.stringify({ id: idx }),
             success: function (response) {
-                //self.vue.tasks.splice(index, 1);
-                //console.log("After splice: " + index);
-                //Vue.delete(self.vue.tasks, index)
-                //console.log(self.vue.tasks[index]);
-
                 self.vue.tasks = self.vue.tasks.filter(function (task) {
                     return task.index != index;
                 });
                 processTasks();
-                //console.log(self.vue.tasks[index].deleteIsFocus);
-                //self.vue.tasks = [];
-                //getTasks();
             }
         });
         Vue.set(self.vue.tasks[index], 'deleteIsFocus', false);
@@ -137,6 +126,16 @@ var app = function () {
         var taskTable = this.document.getElementById("taskList");
         for (task in self.vue.tasks) {
 
+        }
+    }
+
+
+    self.checkTask = function (task) {
+        task.isChecked = !task.isChecked;
+        if (task.isChecked) {
+            task.checkboxIsFocus = false;
+        } else {
+            task.checkboxIsFocus = true;
         }
     }
 
@@ -159,6 +158,15 @@ var app = function () {
             task.deleteIsFocus = false;
         } else {
             task.deleteIsFocus = true;
+        }
+    };
+
+
+    self.taskCheckboxMouseover = function (task) {
+        if (task.checkboxIsFocus) {
+            task.checkboxIsFocus = false;
+        } else {
+            task.checkboxIsFocus = true;
         }
     };
 
@@ -191,6 +199,8 @@ var app = function () {
             taskEditMouseover: self.taskEditMouseover,
             taskDeleteMouseover: self.taskDeleteMouseover,
             log: self.log,
+            taskCheckboxMouseover: self.taskCheckboxMouseover,
+            checkTask: self.checkTask,
         }
     });
 
