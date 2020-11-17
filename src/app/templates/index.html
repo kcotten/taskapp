@@ -8,24 +8,24 @@
   var addTaskUrl = "{{ url_for('add') }}";
 </script>
 <div id="vue-div">
-  <div class="greet">
+  <div class="greet greetUser">
     <p>Hi, {{ current_user.username }}!</p>
   </div>
   <div id="taskForm">
     <textarea v-model="newTask" placeholder="Hit the books!" v-on:keyup.enter="addTask(newTask)"></textarea>
-    <button class="inputArrow" v-on:click="addTask(newTask)"><span>Add&nbsp;&nbsp;
+    <button class="inputArrow" v-on:click="addTask(newTask)"><span>
         <i class="fas fa-arrow-alt-circle-right"></i></span></button>
   </div>
   <table id="user_taskList">
     <tr>
-      <th class="tableColumn">Done</th>
+      <th class="tableColumn"><i id="columnHead" class="fas fa-check-square"></i></th>
       <th class="tableLeftColumn">Task</th>
-      <th class="tableColumn">Edit</th>
-      <th class="tableColumn">Delete</th>
+      <th class="tableColumn"><i id="columnHead" class="fas fa-edit"></i></th>
+      <th class="tableColumn"><i id="columnHead" class="fas fa-trash-alt"></i></th>
     </tr>
     <tr v-for="(task, index) in tasks" :key="task.id" :id="task.id">
       <td id="'taskCheckbox_' + task.id" class="buttonCell tableColumn" v-if="task.checkboxIsFocus">
-        <i id="'checkbox_ + task.id" class="fas fa-check-square" v-on:mouseover='taskCheckboxMouseover(task)'
+        <i id="'checkbox_' + task.id" class="fas fa-check-square" v-on:mouseover='taskCheckboxMouseover(task)'
           v-on:mouseout='taskCheckboxMouseover(task)' v-on:click='checkTask(task)'></i>
       </td>
       <td id="'taskCheckbox_' + task.id" class="buttonCell tableColumn" v-if="!task.checkboxIsFocus">
@@ -33,9 +33,7 @@
           v-on:mouseout='taskCheckboxMouseover(task)' v-on:click='checkTask(task)'></i>
       </td>
       <td v-if="task.isEditing" class="tableLeftColumn editingColumn">
-        <textarea rows="8" cols="128" v-model="task.data" v-on:keyup.ctrl.enter='editTask(task)'></textarea>
-        <button class="inputArrow editArrow" v-on:click="editTask(task)"><span><i
-              class="fas fa-arrow-alt-circle-right"></i></span></button>
+        <textarea rows="2" cols="128" v-model="task.data" v-on:keyup.ctrl.enter='editTask(task)'></textarea>
       </td>
       <!-- For logging use :load="log(task)"-> " -->
       <td v-if="!task.isEditing" class="tableLeftColumn" :id="'taskBody_' + task.id">

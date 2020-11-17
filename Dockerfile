@@ -13,5 +13,4 @@ COPY src /app
 RUN chmod +x boot.sh
 
 EXPOSE 8080
-# CMD [ "python", "taskapp.py" ]
 ENTRYPOINT [ "./boot.sh" ]
