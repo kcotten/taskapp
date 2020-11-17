@@ -108,3 +108,9 @@ def getTasks():
         )
         userTasks.append(taskToAdd)
     return jsonify(dict(tasks=userTasks))
+
+
+@app.route('/health', methods=['GET'])
+def health():
+    resp = jsonify(success=True)
+    return resp, 200, {'ContentType': 'application/json'}
