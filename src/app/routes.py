@@ -10,7 +10,6 @@ from app.forms import LoginForm, RegistrationForm, TaskForm
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    before_request()
     form = TaskForm()
     tasks = current_user.user_tasks().all()
     return render_template("index.html", title='Home Page', form=form,
@@ -74,26 +73,20 @@ def register():
 
 @app.route('/delete', methods=['GET', 'POST'])
 def delete():
-    print('Delete has been called')
     id = request.json['id']
     taskToDelete = Task.query.filter_by(id=id).first()
     db.session.delete(taskToDelete)
     db.session.commit()
-    print('Task deleted')
     return ""
 
 
 @app.route('/edit', methods=['GET', 'POST'])
 def edit():
-    print('Edit has been called')
     id = request.json['id']
-    print(id)
     body = request.json['body']
-    print(body)
     taskToUpdate = Task.query.filter_by(id=id).first()
     taskToUpdate.body = body
     db.session.commit()
-    print('Edit successful')
     return ""
 
 
@@ -115,10 +108,3 @@ def getTasks():
 def health():
     resp = jsonify(success=True)
     return resp, 200, {'ContentType': 'application/json'}
-
-
-@app.before_request
-def before_request():
-    flask.session.permanent = True
-    app.permanent_session_lifetime = datetime.timedelta(minutes=20)
-    flask.session.modified = True
