@@ -6,7 +6,6 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, TaskForm
 
 
-@app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
@@ -31,6 +30,7 @@ def add():
     return jsonify(task=taskToAdd)
 
 
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -114,3 +114,10 @@ def getTasks():
 def health():
     resp = jsonify(success=True)
     return resp, 200, {'ContentType': 'application/json'}
+
+
+@app.before_request
+def before_request():
+    flask.session.permanent = True
+    app.permanent_session_lifetime = datetime.timedelta(minutes=20)
+    flask.session.modified = True
