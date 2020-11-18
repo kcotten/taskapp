@@ -10,6 +10,7 @@ from app.forms import LoginForm, RegistrationForm, TaskForm
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
+    before_request()
     form = TaskForm()
     tasks = current_user.user_tasks().all()
     return render_template("index.html", title='Home Page', form=form,
