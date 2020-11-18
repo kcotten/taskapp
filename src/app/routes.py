@@ -6,6 +6,7 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, TaskForm
 
 
+@app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
@@ -30,7 +31,6 @@ def add():
     return jsonify(task=taskToAdd)
 
 
-@app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
